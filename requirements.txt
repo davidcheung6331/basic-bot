@@ -1,3 +1,5 @@
 openai
 langchain
 streamit
+streamlit-chat
+streamlit-extras
