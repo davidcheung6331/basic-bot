@@ -1,11 +1,12 @@
 # Imports
 import os 
-from langchain.llms import OpenAI
+from langchain.chat_models import ChatOpenAI
 from langchain.document_loaders import TextLoader
 from langchain.document_loaders import PyPDFLoader
 from langchain.indexes import VectorstoreIndexCreator
 import streamlit as st
 from streamlit_chat import message
+
 
 
 st.set_page_config(
@@ -51,8 +52,10 @@ if prompt:
     # Get the resonse from LLM
     # We pass the model name (3.5) and the temperature (Closer to 1 means creative resonse)
     # stuff chain type sends all the relevant text chunks from the document to LLM
-    response = index.query(llm=OpenAI(model_name = model_id, temperature=0.2), question = prompt, chain_type = 'stuff')
+    llm = ChatOpenAI(model_name=model_id, temperature=0.2)
+    response = index.query(llm=llm, question=prompt, chain_type='stuff')
 
+    
     # Add the question and the answer to display chat history in a list
     # Latest answer appears at the top
     st.session_state.question.insert(0,prompt  )
